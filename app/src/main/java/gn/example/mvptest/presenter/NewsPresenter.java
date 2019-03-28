@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import java.util.Map;
 
+import gn.example.mvptest.bean.Move;
 import gn.example.mvptest.model.IMode;
 import gn.example.mvptest.model.NewsModel;
 import gn.example.mvptest.view.IView;
@@ -32,7 +33,7 @@ public class NewsPresenter implements BasePresenter {
      * 将接收的数据传递给Activity显示
      * @param data
      */
-    public void getDatas(String data){
+    public void getDatas(Move data){
 
         iv.success(data);
     }

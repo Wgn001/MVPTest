@@ -38,7 +38,7 @@ public class NewsModel implements IMode {
             public void onResponse(Call call, Response response) throws IOException {
                 data=response.body().string();
                 Move move = Api.StringToJson(data, Move.class);
-                newsPresenter.getDatas(move.getCode());
+                newsPresenter.getDatas(move);
                 Log.i(TAG,data);
             }
         });
