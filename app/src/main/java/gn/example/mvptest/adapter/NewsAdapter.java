@@ -2,10 +2,12 @@ package gn.example.mvptest.adapter;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import java.util.List;
 
 import gn.example.mvptest.R;
 import gn.example.mvptest.bean.Move;
+import gn.example.mvptest.view.WebActivity;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHoder> {
 
@@ -36,12 +39,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHoder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHoder viewHoder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHoder viewHoder, final int i) {
 
             Glide.with(context).load(listList.get(i).getPicUrl()).into(viewHoder.news_img);
             viewHoder.news_type.setText(listList.get(i).getDescription());
             viewHoder.news_show.setText(listList.get(i).getTitle());
 
+
+            viewHoder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //            新闻网页的Web
+                    String url=listList.get(i).getUrl();
+
+                    Intent intent=new Intent(context,WebActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("url",url);
+                    context.startActivity(intent);
+                }
+            });
     }
 
 
@@ -62,6 +78,5 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHoder> {
             news_show=itemView.findViewById(R.id.news_title);
         }
     }
-
 
 }
