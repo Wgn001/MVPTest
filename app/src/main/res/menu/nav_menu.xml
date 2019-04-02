@@ -9,17 +9,17 @@
     <item
         android:id="@+id/nav_friends"
         android:icon="@mipmap/ic_launcher"
-        android:title="Call"/>
+        android:title="Friends"/>
     <item
         android:id="@+id/nav_location"
         android:icon="@mipmap/ic_launcher"
-        android:title="Call"/>
+        android:title="Location"/>
     <item
         android:id="@+id/nav_mail"
         android:icon="@mipmap/ic_launcher"
-        android:title="Call"/>
+        android:title="Main"/>
     <item
         android:id="@+id/nav_task"
         android:icon="@mipmap/ic_launcher"
-        android:title="Call"/>
+        android:title="Task"/>
 </menu>

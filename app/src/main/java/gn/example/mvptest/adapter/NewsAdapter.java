@@ -46,18 +46,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHoder> {
             viewHoder.news_show.setText(listList.get(i).getTitle());
 
 
-            viewHoder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //            新闻网页的Web
-                    String url=listList.get(i).getUrl();
-
-                    Intent intent=new Intent(context,WebActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("url",url);
-                    context.startActivity(intent);
-                }
-            });
+//            viewHoder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //            新闻网页的Web
+//                    String url=listList.get(i).getUrl();
+//
+//                    Intent intent=new Intent(context,WebActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    intent.putExtra("url",url);
+//                    context.startActivity(intent);
+//                }
+//            });
     }
 
 
