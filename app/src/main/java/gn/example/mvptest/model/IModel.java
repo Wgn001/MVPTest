@@ -2,6 +2,6 @@ package gn.example.mvptest.model;
 
 import java.util.Map;
 
-public interface IMode {
+public interface IModel {
     void getData(Map<String ,String> map);
 }

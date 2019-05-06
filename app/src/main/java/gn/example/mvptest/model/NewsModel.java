@@ -13,7 +13,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class NewsModel implements IMode {
+public class NewsModel implements IModel {
 
     private static final String TAG = "NewsModel";
     
@@ -42,7 +42,5 @@ public class NewsModel implements IMode {
                 Log.i(TAG,data);
             }
         });
-
-
     }
 }

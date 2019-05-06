@@ -3,7 +3,6 @@ package gn.example.mvptest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -15,19 +14,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.hjm.bottomtabbar.BottomTabBar;
-import gn.example.mvptest.fragment.newsFragment;
-import gn.example.mvptest.presenter.BasePresenter;
-import gn.example.mvptest.presenter.NewsPresenter;
-import gn.example.mvptest.view.BaseActivity;
-import gn.example.mvptest.view.IView;
 
-public class MainActivity extends BaseActivity implements IView {
+import gn.example.mvptest.fragment.MyFragment;
+import gn.example.mvptest.fragment.WeatherFragment;
+import gn.example.mvptest.fragment.newsFragment;
+import gn.example.mvptest.view.BaseActivity;
+
+public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
-    private DrawerLayout mDrawerLayout;
-    private BottomTabBar bottomTabBar ;
+    public DrawerLayout mDrawerLayout;
+    public BottomTabBar bottomTabBar ;
 
-    BasePresenter presenter=new NewsPresenter(this);
 
     private float DownX;
     private float DownY;
@@ -35,7 +33,7 @@ public class MainActivity extends BaseActivity implements IView {
     private float MoveY;
 
 //    当前页面位置
-    private int overPosition;
+    public  int overPosition;
 
 
     @Override
@@ -84,44 +82,18 @@ public class MainActivity extends BaseActivity implements IView {
         Toolbar toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDrawerLayout=findViewById(R.id.drawer_layout);
+
 //      底部条目
         bottomTabBar=findViewById(R.id.bottombar);
 
-        bottomTabBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.i(TAG,"DOWN");
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        DownX=event.getX();
-                        DownY=event.getY();
-                        Log.i(TAG,String.valueOf(DownX));
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        MoveX=event.getX();
-                        MoveY=event.getY();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        if((DownX-MoveX)>0 && (Math.abs(DownX-MoveX)>25)){
-                            Log.i(TAG,"左滑");
-                            bottomTabBar.setCurrentTab(overPosition-1);
-                        }else if((DownX-MoveX)<0 && (Math.abs(DownX-MoveX)>25)){
-                            bottomTabBar.setCurrentTab(overPosition+1);
-                            Log.i(TAG,"右滑");
-                        }
-                        break;
-                }
-                return false;
-            }
-        });
         bottomTabBar.init(getSupportFragmentManager())
                 .setImgSize(50,50)
                 .setFontSize(20)
                 .setTabPadding(4,6,10)
 //                .setChangeColor(Color.RED,Color.BLUE)
                 .addTabItem("首页",R.drawable.fennec,newsFragment.class)
-                .addTabItem("天气",R.drawable.fennec,newsFragment.class)
-                .addTabItem("娱乐",R.drawable.fennec,newsFragment.class)
+                .addTabItem("天气",R.drawable.fennec,WeatherFragment.class)
+                .addTabItem("娱乐",R.drawable.fennec,MyFragment.class)
                 .isShowDivider(true)
                 .setCurrentTab(0);
                 bottomTabBar.setOnTabChangeListener(new BottomTabBar.OnTabChangeListener() {
@@ -131,10 +103,6 @@ public class MainActivity extends BaseActivity implements IView {
                         Log.i(TAG,">---"+overPosition);
                     }
                 });
-
-
-
-
 
 //       添加左侧菜单栏按钮
         android.support.v7.app.ActionBar actionBar=getSupportActionBar();
@@ -167,18 +135,36 @@ public class MainActivity extends BaseActivity implements IView {
                         break;
                 }
                 mDrawerLayout.closeDrawers();
-                return false;
+                return true;
             }
         });
 
     }
 
     @Override
-    public void success(final Object o) {
-    }
-
-    @Override
-    public void Failes(Exception e) {
-
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                DownX=ev.getX();
+                DownY=ev.getY();
+                Log.i(TAG,String.valueOf(DownX));
+                break;
+            case MotionEvent.ACTION_MOVE:
+                MoveX=ev.getX();
+                MoveY=ev.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                if((DownX-MoveX)>0 && (Math.abs(DownX-MoveX)>250)){
+                    Log.i(TAG,"左滑");
+                    bottomTabBar.setCurrentTab(overPosition+1);
+                    return true;
+                }else if((DownX-MoveX)<0 && (Math.abs(DownX-MoveX)>250)){
+                    bottomTabBar.setCurrentTab(overPosition-1);
+                    Log.i(TAG,"右滑");
+                    return true;
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }
